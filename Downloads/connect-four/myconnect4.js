@@ -29,53 +29,52 @@ function makeHtmlBoard() {
   const htmlBoard = document.getElementById('board');
 
   // TODO: add comment for this code
-  // code used to create a click area to add piece to a column
-  let top = document.createElement("tr");
-  top.setAttribute("id", "column-top");
-  top.addEventListener("click", handleClick);
+  // // code used to create a click area to add piece to a column
+  let top = document.createElement("div");
+    top.classList.add('piece');
 
   // for (let x = 0; x < WIDTH; x++) {
-  //   const headCell = document.createElement("td");
+  //   const headCell = document.createElement("piece");
+  //   headCell.classList.add('piece');
   //   headCell.setAttribute("id", x);
+  //   headCell.addEventListener("click", handleClick);
   //   top.append(headCell);
   // }
-  // htmlBoard.append(top);
-
-  // code used to create a click area to add piece to a row?
-  // for (let y = 0; y < HEIGHT; y++) {
-  //   const row = document.createElement("tr");
-  //   for (let x = 0; x < WIDTH; x++) {
-  //     const cell = document.createElement("td");
-  //     cell.setAttribute("id", `${y}-${x}`);
-  //     row.append(cell);
-  //   }
-    htmlBoard.append(row);
+ 
+  for (let y = 0; y < HEIGHT; y++) {
+    for (let x = 0; x < WIDTH; x++) {
+      const cell = document.createElement("div");
+      cell.classList.add('piece');
+      cell.setAttribute("id", `${y}-${x}`);
+      htmlBoard.append(cell);
+    }
   }
+}
 
 
 /** findSpotForCol: given column x, return top empty y (null if filled) */
 
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 0
-  for(let y = height - 1; y>= 0; y--) {
+  for(let y = HEIGHT - 1; y>= 0; y--) {
+    // checks if cell is empty. 
     if(!board[y][x]) {
       return y;
     }
   }
-  return 0;
+  return null;
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
 
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
-  const piece = document.querySelector('.piece');
-  piece.classList.add('piece');
-  piece.style.backgroundColor = currPlayer.color;
-  piece.style.top = -42 (y+ 2);
+  const piece = document.querySelector('div');
+  piece.classList.add('.player-one')
+  piece.style.top = -43 * (y+ 2);
 
   const circle = document.getElementById(`${y} - ${x}`);
-  circle.append(piece);
+  piece.append(circle);
 }
 
 /** endGame: announce game end */
@@ -83,24 +82,33 @@ function placeInTable(y, x) {
 function endGame(msg) {
   // TODO: pop up alert message
   alert("Game Over!")
-  const top = document.querySelector()
 }
 
 /** handleClick: handle click of column top to play piece */
 
 function handleClick(evt) {
+  // if what you clicked on does not have "piece" class function ends.
+  if(!evt.target.classList.contains("piece")){
+    return;
+  }
   // get x from ID of clicked cell
-  let x = +evt.target.id;
+  console.log(evt.target.id);
+  console.log(evt.target.id.split("-"));
+  //converting it to a number
+  let x = +evt.target.id.split("-")[1];
+  console.log(x);
 
   // get next spot in column (if none, ignore click)
   const y = findSpotForCol(x);
   if (y === null) {
     return;
   }
-
+  console.log(y);
   // place piece in board and add to HTML table
   // TODO: add line to update in-memory board
+  board[x]= currPlayer;
   placeInTable(y, x);
+  
 
   // check for win
   if (checkForWin()) {
@@ -147,6 +155,7 @@ function checkForWin() {
     }
   }
 }
-
+const boardDiv = document.getElementById('board');
+boardDiv.addEventListener("click", handleClick);
 makeBoard();
 makeHtmlBoard();
