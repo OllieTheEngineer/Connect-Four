@@ -57,18 +57,3 @@ h1{
   transition: .5s ease-in; 
 }
 
-/* column-top is table row of clickable areas for each column */
-
-/* #column-top {
-  margin: 10px;
-  width: 75%;
-  height: 75%;
-  position: absolute;
-  display: inline-block;
-  border: dashed 1px lightgray;
-  border-radius: 50%;
-} */
-
-#column-top td:hover {
-  background-color: gold;
-}
